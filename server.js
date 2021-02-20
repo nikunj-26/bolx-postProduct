@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/images', express.static('images'));
 
 mongoose.connect("mongodb://localhost:27017/olxDB", {
   useNewUrlParser: true,
@@ -13,11 +14,11 @@ mongoose.connect("mongodb://localhost:27017/olxDB", {
 });
 
 const productSchema = new mongoose.Schema({
-  //   sellerName: String,
+  sellerName: String,
   title: String,
   description: String,
-  //   price: String,
-  //   email: String,
+  price: String,
+  sellerEmail: String,
   city: String,
   image: Array,
   city: String,
@@ -60,11 +61,12 @@ app.post(
 
     const file = req.files;
     // const fileName = file.originalname;
+    const sellerName = req.body.sellerName;
     const title = req.body.title;
-    //const email= req.body.email;
+    const sellerEmail= req.body.sellerEmail;
     //const featured = req.body.featured;
     const description = req.body.description;
-    // const price = req.body.price;
+    const price = req.body.price;
     const city = req.body.city;
     const state = req.body.state;
     const phone = req.body.phone;
@@ -92,9 +94,11 @@ app.post(
 
     ////////////////DONT see
     const newProduct = new Product({
+      sellerName: sellerName,
+      sellerEmail: sellerEmail,
       title: title,
       description: description,
-      //   price: price,
+      price: price,
       city: city,
       image: image,
       state: state,
