@@ -21,10 +21,11 @@ const productSchema = new mongoose.Schema({
   sellerEmail: String,
   city: String,
   image: Array,
-  city: String,
   state: String,
   phone: String,
   date: String,
+  createepoch:Number,
+  is_approved: Boolean
 });
 
 const Product = mongoose.model("Product", productSchema);
@@ -104,6 +105,8 @@ app.post(
       state: state,
       phone: phone,
       date: new Date().toLocaleString().split(",")[0],
+      createepoch: Date.now(),
+      is_approved: false
     });
 
     await newProduct.save();
